@@ -3,7 +3,7 @@ const multer = require('multer');
 const router = express.Router();
 
 // const {Register,Allregister, Login,} = require('../controllers/UserController');
-const {Quotation, GetQuotation, Quotationviaid, GetServices,  deleteQuotation, updateServices, Notes, getNotes, deleteNote, addServices, deleteService, getnotes_text, UpdateQuotationName} = require('../controllers/UserController');
+const {Quotation, GetQuotation, Quotationviaid, GetServices,  deleteQuotation, updateServices, Notes, getNotes, deleteNote, addServices, deleteService, getnotes_text, UpdateQuotationName, CopyQuotationData} = require('../controllers/UserController');
 const { uploadImage,getHeaderImage, getFooterImage, deleteHeaderImage, deleteFooterImage, updateHeaderImage, updateFooterImage } = require("../controllers/imageController");
 const upload = require("../controllers/fileUploadController");
 const { uploadImages, header_footer_img, getHeaderFooterImages, get_header_footer, updateHeaderFooterImages, fetchcompanyname, company_name_header_footer, deleteCompanydata, CompanyDataUpload, updateCompanyData } = require("../controllers/Header_Footer_Controller");
@@ -36,6 +36,7 @@ router.get("/quotation/:id",Quotationviaid);
 // router.get("/quotation",GetQuotation);
 router.get("/quotation-data/:UserId", GetQuotation);
 router.put("/quotation-data/:quotationId", UpdateQuotationName);
+router.post("/copy-quotation/:quotationId", CopyQuotationData);
 
 router.get("/services",GetServices);
 
