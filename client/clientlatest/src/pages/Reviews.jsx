@@ -29,7 +29,8 @@ function Reviews({ handleClose }) {
   const fetchQuotations = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:9000/api/quotation/${id}`
+        `
+        http://localhost:9000/api/quotation/${id}`
       );
 
       if (response.status === 200) {
@@ -48,7 +49,8 @@ function Reviews({ handleClose }) {
   const fetchNotes = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:9000/api/notes/${id}`
+        `
+        http://localhost:9000/api/notes/${id}`
       );
 
       if (response.status === 200) {
@@ -61,7 +63,8 @@ function Reviews({ handleClose }) {
   const fetchHeaderImage = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:9000/api/${id}/header`
+        `
+        http://localhost:9000/api/${id}/header`
       );
 
       if (response.status === 200) {

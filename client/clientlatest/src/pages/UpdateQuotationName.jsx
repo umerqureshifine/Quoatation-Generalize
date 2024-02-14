@@ -46,10 +46,10 @@ const UpdateQuotationName = () => {
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="formNewName">
-                        <Form.Label>New Name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter new name" value={newName} onChange={(e) => setNewName(e.target.value)} />
+                        <Form.Label>New Quotation Name</Form.Label>
+                        <Form.Control type="text" placeholder="Enter new Quotation name" value={newName} onChange={(e) => setNewName(e.target.value)} />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" className='mt-3'>
                         Save Changes
                     </Button>
                 </Form>

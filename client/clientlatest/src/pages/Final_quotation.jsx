@@ -250,22 +250,22 @@ function Final_quotation() {
         </div>
       </div> */}
 
-<button className="btn btn-success mt-2 mx-3 mb-2">
-            {" "}
-            <Link to="/quotation-form" className="text-white">
-              {" "}
-              <i className="bi bi-arrow-return-left mx-1"></i>Back
-            </Link>
-          </button>
 
       <Wrapper>
         <div className="container-fluid">
+         <div className="container-fluid mt-4">
+
+            {" "}
+            <Link to="/quotation-form" className="text-white btn btn-success mt-2 mx-3 mb-2 w-25">
+              {" "}
+              <i className="bi bi-arrow-return-left mx-1"></i>Back
+            </Link>
          
           <button
-            className="btn btn-success mx-3"
+            className="btn btn-success mx-3 w-25"
             onClick={() => setIsUpdateMode(true)}
           >
-            Update
+            Update Services
           </button>
           {isUpdateMode && (
             <UpdateServicesForm
@@ -274,9 +274,10 @@ function Final_quotation() {
               onUpdateError={handleUpdateError}
             />
           )}
-          <button className="btn btn-primary mx-2" onClick={handleAddServices}>
+          <button className="btn  btn-secondary mx-2 w-25" onClick={handleAddServices}>
             Add Serrvices
-          </button>
+          </button></div>
+          
           <div className="container-fluid">
             
             <div className="container-fluid mt-3">
@@ -366,9 +367,9 @@ function Final_quotation() {
             </div>
           </div>
 
-            <button className="btn btn-outline-danger" onClick={handleDelete}>
+            {/* <button className="btn btn-outline-danger" onClick={handleDelete}>
               Delete
-            </button>
+            </button> */}
               <button className="btn btn-success  mx-3" onClick={handleReview}>
         Reviews
       </button>
@@ -388,7 +389,8 @@ function Final_quotation() {
               </ul>
             </div>
           </div>
-          <button className="btn btn-primary" onClick={handleAddNotes}>
+          <div className="container-fluid">
+          <button className="btn btn-primary " onClick={handleAddNotes}>
             Add Notes
           </button>
           <button className="btn btn-danger mx-2" onClick={handleDeleteNotes}>
@@ -397,8 +399,9 @@ function Final_quotation() {
 
       <div className=""> <button className="btn btn-danger mt-2" onClick={handlePrintPage}>
             Print_Page
-          </button></div>
-         
+          </button>
+          </div>
+         </div>
         </div>
         {/* <div className="container-fluid">
         <div className="mt-3 mb-3">

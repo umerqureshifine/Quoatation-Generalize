@@ -212,6 +212,10 @@ const UpdateServicesForm = ({ quotationId, onUpdateSuccess, onUpdateError }) => 
     fetchServices();
   }, [quotationId]);
 
+  const handleUpdateClose = () =>{
+    onUpdateSuccess();
+  }
+
   return (
     <div className="container">
        <div className='form-control mb-2 mt-2'>
@@ -303,6 +307,7 @@ const UpdateServicesForm = ({ quotationId, onUpdateSuccess, onUpdateError }) => 
         </div>
       ))}
 <button className='btn btn-success mt-2 mb-2' onClick={(e) => handleUpdate(e)}>Update Services</button>
+<button className='btn btn-danger mt-2 mb-2 mx-2' onClick={handleUpdateClose}>Cancel</button>
 
     </div>
     </div>
