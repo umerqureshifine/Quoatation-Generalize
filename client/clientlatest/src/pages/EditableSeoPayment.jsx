@@ -60,7 +60,7 @@ function EditableSeoPayment() {
                     ))}
                 </tbody>
             </table></div>
-            <button className='btn btn-success btn-print mx-3' onClick={handleAddRow}>Add Row</button>
+            <button className='btn btn-success btn-print mx-3' onClick={handleAddRow}>Add More Condition</button>
         </Wrapper>
     );
 }

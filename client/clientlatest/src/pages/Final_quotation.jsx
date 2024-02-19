@@ -7,6 +7,8 @@ import UpdateServicesForm from "./UpdateServicesForm";
 import UpdateHeaderImageForm from "./UpdateHeaderImageForm";
 import UpdateFooterImageForm from "./UpdatFooterImageForm";
 import Footer from "./Footer";
+import UserLogin from "./UserLogin";
+import Logout from "./Logout";
 
 function Final_quotation() {
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ function Final_quotation() {
   const fetchQuotations = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:9000/api/quotation/${id}`
+        `https://quotation.queuemanagementsystemdg.com/api/quotation/${id}`
       );
 
       if (response.status === 200) {
@@ -51,7 +53,7 @@ function Final_quotation() {
 
   const fetchNotes = async () => {
     try {
-      const response = await axios.get(`http://localhost:9000/api/notes/${id}`);
+      const response = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/notes/${id}`);
 
       if (response.status === 200) {
         setNotes(response.data);
@@ -60,8 +62,6 @@ function Final_quotation() {
       console.error("Error fetching notes:", error);
     }
   };
-
-
 
   const handlePrintPage = () => {
     navigate(`/print/${id}`);
@@ -76,7 +76,7 @@ function Final_quotation() {
     if (isConfirmed) {
       try {
         const response = await axios.delete(
-          `http://localhost:9000/api/quotation/${id}`
+          `https://quotation.queuemanagementsystemdg.com/api/quotation/${id}`
         );
 
         if (response.status === 200) {
@@ -107,6 +107,9 @@ function Final_quotation() {
   const handleDeleteNotes = () => {
     navigate(`/deletenotes/${id}`);
   };
+  const handleUpdateNotes = () => {
+    navigate(`/update-notes/${id}`);
+  };
 
   const handleAddServices = () => {
     navigate(`/addservices/${id}`);
@@ -120,7 +123,7 @@ function Final_quotation() {
       try {
         // Make an API call to delete the service
         const response = await axios.delete(
-          `http://localhost:9000/api/services/${serviceId}`
+          `https://quotation.queuemanagementsystemdg.com/api/services/${serviceId}`
         );
 
         if (response.status === 200) {
@@ -140,7 +143,7 @@ function Final_quotation() {
     if (isConfirmed) {
       try {
         const response = await axios.delete(
-          `http://localhost:9000/api/header/${id}`
+          `https://quotation.queuemanagementsystemdg.com/api/header/${id}`
         );
 
         if (response.status === 200) {
@@ -159,7 +162,7 @@ function Final_quotation() {
     if (isConfirmed) {
       try {
         const response = await axios.delete(
-          `http://localhost:9000/api/footer/${id}`
+          `https://quotation.queuemanagementsystemdg.com/api/footer/${id}`
         );
 
         if (response.status === 200) {
@@ -187,7 +190,6 @@ function Final_quotation() {
   useEffect(() => {
     fetchQuotations();
     fetchNotes();
-   
   }, []);
 
   const filterServicesByType = (type) => {
@@ -200,15 +202,14 @@ function Final_quotation() {
 
   return (
     <>
-    {/* <Header/> */}
-    {/* <div className="">
+      {/* <Header/> */}
+      {/* <div className="">
     <button className="btn btn-success mt-2 mx-3" onClick={handleChangeHeaderFooter}>
             {" "}
           
           Add Company
         
           </button></div> */}
-
 
       {/* <div className="container-fluid">
         <div className="mt-3 mb-3">
@@ -250,131 +251,172 @@ function Final_quotation() {
         </div>
       </div> */}
 
-
       <Wrapper>
         <div className="container-fluid">
-         <div className="container-fluid mt-4">
-
-            {" "}
-            <Link to="/quotation-form" className="text-white btn btn-success mt-2 mx-3 mb-2 w-25">
+          <div className="d-flex justify-content-between">
+            <div className="mx-3 mt-3">
               {" "}
-              <i className="bi bi-arrow-return-left mx-1"></i>Back
-            </Link>
-         
-          <button
-            className="btn btn-success mx-3 w-25"
-            onClick={() => setIsUpdateMode(true)}
-          >
-            Update Services
-          </button>
-          {isUpdateMode && (
-            <UpdateServicesForm
-              quotationId={id}
-              onUpdateSuccess={handleUpdateSuccess}
-              onUpdateError={handleUpdateError}
-            />
-          )}
-          <button className="btn  btn-secondary mx-2 w-25" onClick={handleAddServices}>
-            Add Serrvices
-          </button></div>
-          
-          <div className="container-fluid">
-            
-            <div className="container-fluid mt-3">
-            <h4>Paid Services</h4>
-            <div className="" style={{ maxHeight: "700px", overflowY: "auto" }}>
-            <table className="table table-bordered ">
-              <thead>
-                <tr>
-                  <th>Sr.No</th>
-                  <th>Service Name</th>
-                  <th>Service Description</th>
-                  <th>Actual Price(INR)</th>
-                  <th>Offer Price(INR)</th>
-                  <th>Subscription</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filterServicesByType("Paid").map((q, index) => (
-                  <tr key={q.id}>
-                    <td className="text-center" style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                      {index + 1}
-                    </td>
-                    <td style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                      {q.service_name}
-                    </td>
-                    <td>{q.service_description}</td>
-                    <td className="th">{q.actual_price}</td>
-                    <td className="th">{q.offer_price}</td>
-                    <td className="th"> {q.subscription_frequency}</td>
-                    <td>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => handleDeleteService(q.service_id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              <UserLogin />
+            </div>
+            <div className=" mt-3 mx-3">
+              {" "}
+              <Logout />
             </div>
           </div>
 
-          {/* Complimentary Services */}
-          <div className="container-fluid mt-3">
-            <h4>Complimentary Services</h4>
-            <div className="" style={{ maxHeight: "700px", overflowY: "auto" }}>
-            <table className="table table-bordered ">
-              <thead>
-                <tr>
-                  <th>Sr.No</th>
-                  <th>Service Name</th>
-                  <th>Service Description</th>
-                  <th>Actual Price(INR)</th>
-                  <th>Offer Price(INR)</th>
-                  <th>Subscription</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filterServicesByType("Complimentary").map((q, index) => (
-                  <tr key={q.id}>
-                    <td className="text-center" style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                      {index + 1}
-                    </td>
-                    <td style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                      {q.service_name}
-                    </td>
-                    <td>{q.service_description}</td>
-                    <td className="th">{q.actual_price}</td>
-                    <td className="th">{q.offer_price}</td>
-                    <td className="th"> {q.subscription_frequency}</td>
-                    <td>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => handleDeleteService(q.service_id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="container-fluid mt-4">
+            <div className="row g-2">
+              <div className="col-lg-3">
+                {" "}
+                <Link
+                  to="/quotation-form"
+                  className="text-white btn btn-success  mx-1  w-100"
+                >
+                  {" "}
+                  <i className="bi bi-arrow-return-left mx-1"></i>Back
+                </Link>
+              </div>
+              <div className="col-lg-3">
+                {" "}
+                <button
+                  className="btn btn-success mx-1  w-100"
+                  onClick={() => setIsUpdateMode(true)}
+                >
+                  Update Services
+                </button>{" "}
+              </div>
+              {isUpdateMode && (
+                <UpdateServicesForm
+                  quotationId={id}
+                  onUpdateSuccess={handleUpdateSuccess}
+                  onUpdateError={handleUpdateError}
+                />
+              )}
+              <div className="col-lg-3">
+                {" "}
+                <button
+                  className="btn  btn-success mx-1  w-100"
+                  onClick={handleAddServices}
+                >
+                  Add Services
+                </button>
+              </div>
+              <div className="col-lg-3">
+             
+                  <Link
+                    to="/quotationlist"
+                    className="text-white text-decoration-none btn btn-success mx-1  w-100"
+                  >
+                    Quotation List
+                  </Link>
+               
+              </div>{" "}
             </div>
           </div>
+
+          <div className="container-fluid">
+            <div className="container-fluid mt-3">
+              <h4>Paid Services</h4>
+              <div
+                className=""
+                style={{ maxHeight: "700px", overflowY: "auto" }}
+              >
+                <table className="table table-bordered ">
+                  <thead>
+                    <tr>
+                      <th>Sr.No</th>
+                      <th>Service Name</th>
+                      <th>Service Description</th>
+                      <th>Actual Price(INR)</th>
+                      <th>Offer Price(INR)</th>
+                      <th>Subscription</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filterServicesByType("Paid").map((q, index) => (
+                      <tr key={q.id}>
+                        <td
+                          className="text-center"
+                          style={{ fontSize: "1rem", fontWeight: "bold" }}
+                        >
+                          {index + 1}
+                        </td>
+                        <td style={{ fontSize: "1rem", fontWeight: "bold" }}>
+                          {q.service_name}
+                        </td>
+                        <td>{q.service_description}</td>
+                        <td className="th">{q.actual_price}</td>
+                        <td className="th">{q.offer_price}</td>
+                        <td className="th"> {q.subscription_frequency}</td>
+                        <td>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => handleDeleteService(q.service_id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Complimentary Services */}
+            <div className="container-fluid mt-3">
+              <h4>Complimentary Services</h4>
+              <div
+                className=""
+                style={{ maxHeight: "700px", overflowY: "auto" }}
+              >
+                <table className="table table-bordered ">
+                  <thead>
+                    <tr>
+                      <th>Sr.No</th>
+                      <th>Service Name</th>
+                      <th>Service Description</th>
+                      <th>Actual Price(INR)</th>
+                      <th>Offer Price(INR)</th>
+                      <th>Subscription</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filterServicesByType("Complimentary").map((q, index) => (
+                      <tr key={q.id}>
+                        <td
+                          className="text-center"
+                          style={{ fontSize: "1rem", fontWeight: "bold" }}
+                        >
+                          {index + 1}
+                        </td>
+                        <td style={{ fontSize: "1rem", fontWeight: "bold" }}>
+                          {q.service_name}
+                        </td>
+                        <td>{q.service_description}</td>
+                        <td className="th">{q.actual_price}</td>
+                        <td className="th">{q.offer_price}</td>
+                        <td className="th"> {q.subscription_frequency}</td>
+                        <td>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => handleDeleteService(q.service_id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
             {/* <button className="btn btn-outline-danger" onClick={handleDelete}>
               Delete
             </button> */}
-              <button className="btn btn-success  mx-3" onClick={handleReview}>
-        Reviews
-      </button>
-
-   
 
             <div className="note mt-3">
               <h5 className=" fw-bold">Notes:-</h5>
@@ -389,19 +431,54 @@ function Final_quotation() {
               </ul>
             </div>
           </div>
-          <div className="container-fluid">
-          <button className="btn btn-primary " onClick={handleAddNotes}>
-            Add Notes
-          </button>
-          <button className="btn btn-danger mx-2" onClick={handleDeleteNotes}>
-            Delete Notes
-          </button>
 
-      <div className=""> <button className="btn btn-danger mt-2" onClick={handlePrintPage}>
-            Print_Page
-          </button>
+          <div className="container-fluid">
+            <div className="row g-2">
+              <div className="col-lg-3">
+                {" "}
+                <button
+                  className="btn btn-primary mx-1 w-100 "
+                  onClick={handleAddNotes}
+                >
+                  Add Notes
+                </button>
+              </div>
+              <div className="col-lg-3">
+                {" "}
+                <button
+                  className="btn btn-danger mx-1 w-100"
+                  onClick={handleDeleteNotes}
+                >
+                  Delete Notes
+                </button>
+              </div>
+              <div className="col-lg-3">
+                <button
+                  className="btn btn-info mx-1 w-100 text-white"
+                  onClick={handleUpdateNotes}
+                >
+                  Edit Notes
+                </button>
+              </div>
+              <div className="col-lg-6"> <button
+                  className="btn btn-success mt-1 mb-2 "
+                  onClick={handleReview}
+                >
+                  Review Quotation data
+                </button></div>
+              <div className="col-lg-6"></div>
+
+              <div className="col-lg-12">
+                <button
+                  className="btn btn-success p-3 w-75 mb-2 w-100"
+                  onClick={handlePrintPage}
+                >
+                  Print_Page
+                </button>
+              </div>
+            </div>
           </div>
-         </div>
+          <div className="container-fluid"></div>
         </div>
         {/* <div className="container-fluid">
         <div className="mt-3 mb-3">
@@ -444,7 +521,6 @@ function Final_quotation() {
         </div> */}
       </Wrapper>
 
-  
       {/* <button className="btn btn-success mt-2 mx-3 mb-3" onClick={handleChangeHeaderFooter}>
 
            

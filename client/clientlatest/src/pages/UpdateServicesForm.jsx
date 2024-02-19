@@ -7,7 +7,7 @@
 
 //   const fetchServices = async () => {
 //     try {
-//       const response = await axios.get(`http://localhost:9000/api/quotation/${quotationId}`);
+//       const response = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/quotation/${quotationId}`);
 //       setServices(response.data);
 
 //     } catch (error) {
@@ -18,7 +18,7 @@
 //   const handleUpdate = async (e) => {
 //     e.preventDefault();
 //     try {
-//       const response = await axios.put(`http://localhost:9000/api/quotation/${quotationId}`, {
+//       const response = await axios.put(`https://quotation.queuemanagementsystemdg.com/api/quotation/${quotationId}`, {
 //         services,
 
 //       });
@@ -153,11 +153,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const UpdateServicesForm = ({ quotationId, onUpdateSuccess, onUpdateError }) => {
-  const [services, setServices] = useState([]);
+  const [
+    services, setServices] = useState([]);
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get(`http://localhost:9000/api/quotation/${quotationId}`);
+      const response = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/quotation/${quotationId}`);
       setServices(response.data);
 
     } catch (error) {
@@ -168,7 +169,7 @@ const UpdateServicesForm = ({ quotationId, onUpdateSuccess, onUpdateError }) => 
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:9000/api/quotation/${quotationId}`, {
+      const response = await axios.put(`https://quotation.queuemanagementsystemdg.com/api/quotation/${quotationId}`, {
         services,
 
       });

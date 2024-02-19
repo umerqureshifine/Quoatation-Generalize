@@ -11,8 +11,12 @@ import Footer from './Footer';
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import UserLogin from './UserLogin';
+import Logout from './Logout';
+import cogoToast from 'cogo-toast';
 
-function Set_Header_Footer() {
+
+function CreateCompanyProfile() {
   const { id } = useParams();
   
   const [headerImage, setHeaderImage] = useState(null);
@@ -35,7 +39,8 @@ function Set_Header_Footer() {
     setFooterImage(e.target.files[0]);
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (e) => {
+    e.preventDefault();
     try {
       const formData = new FormData();
     
@@ -47,18 +52,25 @@ function Set_Header_Footer() {
       formData.append('company_name_account_ifsc',accountIFSC);
       formData.append('company_name_account_number',accountNumber);
       formData.append('company_address',companyAddress);
-
-      const response = await axios.post('http://localhost:9000/api/upload-header-footer', formData, {
+  
+      const response = await axios.post('https://quotation.queuemanagementsystemdg.com/api/upload-header-footer', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      if (response.status === 201) {
-        console.log('Company data and images uploaded successfully');
-      
-        navigate(`/print/${id}`); // Replace with your actual route
-
+  
+      if(response.data.success === true){
+        // Trigger CogoToast success message
+        cogoToast.success(`${response.data.message}`);
+        
+        // Reset input values after successful upload
+        setHeaderImage(null);
+        setFooterImage(null);
+        setCompanyNameBranch('');
+        setAccountName('');
+        setAccountIFSC('');
+        setAccountNumber('');
+        setCompanyAddress('');
       } else {
         console.error('Error uploading company data and images:', response.statusText);
       }
@@ -66,50 +78,79 @@ function Set_Header_Footer() {
       console.error('Error uploading company data and images:', error.message);
     }
   };
+  
 
   
   
 
   return (
     <Wrapper>
-     <div className='container-fluid'>
-      <h1>Image Upload and Company Data</h1>
-      <Link to={`/print/${id}`} className="btn btn-success mx-3 float-end">
-      <i className="bi bi-arrow-return-left mx-1"></i>   Final Quotation
-            </Link>
-    
-      <label className="form-check-label" >
-        Header Image :
-        <input type="file" className="form-control  mb-2"  accept="image/*" onChange={handleHeaderImageChange} />
-      </label>
-      <br />
-      <label className="form-check-label">
-        Footer Image :
-        <input type="file" className="form-control mb-2"  accept="image/*" onChange={handleFooterImageChange} />
-      </label>
-      <br />
-      <label className='form-check-label'>
+     <div className='container-fluid mt-5'>
+    <div className='form-control'>
+ <div className="d-flex justify-content-between">
+            <div className="mx-3 mt-3">
+              {" "}
+              <UserLogin />
+            </div>
+            <div className=" mt-3 mx-3 ">
+              {" "}
+              <Logout />
+            </div>
+</div>
+<div className="row g-2 mt-2">
+            <div className="col-lg-6">
+            <Link
+                    to="/quotation-form"
+                    className="text-white text-decoration-none btn btn-success mx-1  w-100"
+                  >
+                    Create Quotation
+                  </Link>
+            </div>
+            <div className="col-lg-6">
+            <Link
+                    to="/quotationlist"
+                    className="text-white text-decoration-none btn btn-success mx-1  w-100"
+                  >
+                    Quotation List
+                  </Link>
+
+          
+           
+          
+          </div>
+      </div>
+    <h3 className='text-center mt-2'>Create Company Profile</h3>
+    <div className="row">
+
+      <div className="col-lg-3"></div>
+      <div className="col-lg-6"> <div className="form-control text-center">
+      <div className="">
+      <label className='form-check-label '>
         Company  Name :
         <input
           type='text'
           className='form-control mb-2'
           value={companyNameBranch}
-          onChange={(e) => setCompanyNameBranch(e.target.value)}
+          onChange={(e) => setCompanyNameBranch(e.target.value)} 
         />
       </label>
-      <br />
-      
-      <label className='form-check-label '>
+  
+        <label className='form-check-label '>
         Company Address :
         <input
           type='text'
-          className='form-control mb-2'
+          className='form-control mb-2 mx-2'
           value={companyAddress}
           onChange={(e) => setCompanyAddress(e.target.value)}
         />
 
       </label>
-      <br />
+     
+
+      
+      </div>
+    
+
         <h6>Company  Name Payment Detail :-</h6>
       
       <label className='form-check-label'>
@@ -122,8 +163,9 @@ function Set_Header_Footer() {
         />
 
       </label>
+      
 
-      <label className='form-check-label mx-lg-2 '>
+      <label className='form-check-label mx-lg-2  '>
         IFSC Code :
         <input
           type='text'
@@ -133,6 +175,7 @@ function Set_Header_Footer() {
         />
 
       </label>
+      
       <label className='form-check-label '>
         Account Number :
         <input
@@ -143,11 +186,31 @@ function Set_Header_Footer() {
         />
 
       </label>
-     
-      <br />
-      <button className='btn btn-success' onClick={handleUpload}>Upload</button>
+     <br />
 
+      <label className="form-check-label" >
+        Header Image :
+        <input type="file" className="form-control  mb-2"  accept="image/*" onChange={handleHeaderImageChange} />
+      <span className='mx-2'>1200px width and 200-400px height of Header</span>
+      </label>
+
+      <label className="form-check-label mx-2">
+        Footer Image :
+        <input type="file" className="form-control mb-2"  accept="image/*" onChange={handleFooterImageChange} />
+      <span className='mx-2'>1200px width and 200-400px height of Footer</span>
+      </label>
+<br />
+<br />
+      <button className='btn btn-success ' onClick={handleUpload}>Upload</button>
+ 
+      </div></div>
+      <div className="col-lg-3"></div>
+    </div>
+   
       
+      
+      
+      </div>     
     </div>
 {/* <div className="" style={{ border: '1px solid #ccc', padding: '10px', margin: '10px', borderRadius: '5px' }}>
 
@@ -166,7 +229,7 @@ function Set_Header_Footer() {
   );
 }
 
-export default Set_Header_Footer;
+export default CreateCompanyProfile;
 
 
 

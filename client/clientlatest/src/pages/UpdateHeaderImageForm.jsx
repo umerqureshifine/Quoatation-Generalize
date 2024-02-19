@@ -32,7 +32,7 @@ const UpdateHeaderImageForm = ({ quotationId }) => {
 
       
       const response = await axios.put(
-        `http://localhost:9000/api/header/${quotationId}`,
+        `https://quotation.queuemanagementsystemdg.com/api/header/${quotationId}`,
         formData,
 {
           headers: {

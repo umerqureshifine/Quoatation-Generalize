@@ -28,12 +28,12 @@ function Login() {
   const handleSumbit = async (e) =>{
     e.preventDefault();
     try{
-      const res  = await axios.post("http://localhost:9000/api/login", formData)
+      const res  = await axios.post("https://quotation.queuemanagementsystemdg.com/api/login", formData)
       console.log(res)
       if(res.data.success === true){
         dispatch(loginUser(res.data.user)); 
         cogoToast.success(`${res.data.message}`)
-        navigate("/quotation-form");
+        navigate("/create-company-profile");
       }
       else{
         cogoToast.error(`${res.data.message}`)

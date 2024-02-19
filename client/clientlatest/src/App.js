@@ -11,7 +11,7 @@
 // import AddServices from "./pages/AddServices";
 // import ImageUploadComponent from "./pages/AddImageComponent";
 // import AddImageComponent from "./pages/AddImageComponent";
-// import Set_Header_Footer from "./pages/Set_Header_Footer";
+// import CreateCompanyProfile from "./pages/CreateCompanyProfile";
 // import Registration from "./pages/Registration";
 // import Login from "./pages/Login";
 
@@ -39,7 +39,7 @@
 //         <Route path="/deletenotes/:id" element={<DeleteNotes />} />
 //         <Route path="/addservices/:id" element={<AddServices />} />
 //         <Route path="/addimage/:quotationId/:imageType" element={<AddImageComponent />} />
-//         <Route path="/set-header-footer/:id" element={<Set_Header_Footer />} />
+//         <Route path="/set-header-footer/:id" element={<CreateCompanyProfile />} />
 
 
         
@@ -78,7 +78,7 @@ import DeleteNotes from "./pages/DeleteNotes";
 import AddServices from "./pages/AddServices";
 import ImageUploadComponent from "./pages/AddImageComponent";
 import AddImageComponent from "./pages/AddImageComponent";
-import Set_Header_Footer from "./pages/Set_Header_Footer";
+import CreateCompanyProfile from "./pages/CreateCompanyProfile";
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import { useSelector } from "react-redux";
@@ -87,6 +87,10 @@ import DeleteCompanydata from "./pages/DeleteCompanydata";
 import MainUpdateCompanyData from "./pages/MainUpdateCompanyData";
 import UpdateCompanyData from "./pages/UpdateCompanyData";
 import UpdateQuotationName from "./pages/UpdateQuotationName";
+import UpdateNotes from './pages/UpdateNotes';
+import CreateServicelist from "./pages/CreateServicelist";
+import DeleteServiceName from "./pages/DeleteServiceName";
+import UpdateServiceList from "./pages/UpdateServiceList";
 
 
  
@@ -106,7 +110,7 @@ function App() {
    
           <Route path="/quotation-form" element={user ? <QuotationForm1 /> : <Navigate to="/" />} />
           <Route path="/register" element={<Registration />} />
-          <Route path="/" element={user? <QuotationForm1 />:<Login/>} />
+          <Route path="/" element={user? <CreateCompanyProfile />:<Login/>} />
 
         <Route path="/final-quotation/:id" element={user ? <Final_quotation/>: <Navigate to="/" />} />
         <Route path="/update/:id" element={user ?<UpdateServicesForm />: <Navigate to="/" />} />
@@ -116,12 +120,16 @@ function App() {
         <Route path="/deletenotes/:id" element={user ? <DeleteNotes />: <Navigate to="/" />} />
         <Route path="/addservices/:id" element={user ? <AddServices />: <Navigate to="/" />} />
         <Route path="/addimage/:quotationId/:imageType" element={<AddImageComponent />} />
-        <Route path="/set-header-footer/:id" element={user ? <Set_Header_Footer />: <Navigate to="/" />}  />
+        <Route path="/create-company-profile" element={user ? <CreateCompanyProfile />: <Navigate to="/" />}  />
         <Route path="/review/:id" element={user ? <Reviews />: <Navigate to="/" />} />
         <Route path="/deletecompanydata/:id" element={user ? <DeleteCompanydata />: <Navigate to="/" />} />
         <Route path="/mainupdatecompanydata/:id" element={user ? <MainUpdateCompanyData />: <Navigate to="/" />} />
         <Route path="/updatecompanydata/:id" element={user ? <UpdateCompanyData />: <Navigate to="/" />} />
         <Route path="/update-quotation-name/:id" element={user ? <UpdateQuotationName />: <Navigate to="/" />} />
+        <Route path="/update-notes/:id" element={user ? <UpdateNotes />: <Navigate to="/" />} />
+        <Route path="/create-servicelist" element={user ? <CreateServicelist />: <Navigate to="/" />} />
+        <Route path="/delete-servicename" element={user ? <DeleteServiceName />: <Navigate to="/" />} />
+        <Route path="/update-servicename" element={user ? <UpdateServiceList />: <Navigate to="/" />} />
 
 
         

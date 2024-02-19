@@ -30,7 +30,7 @@ function Reviews({ handleClose }) {
     try {
       const response = await axios.get(
         `
-        http://localhost:9000/api/quotation/${id}`
+        https://quotation.queuemanagementsystemdg.com/api/quotation/${id}`
       );
 
       if (response.status === 200) {
@@ -50,7 +50,7 @@ function Reviews({ handleClose }) {
     try {
       const response = await axios.get(
         `
-        http://localhost:9000/api/notes/${id}`
+        https://quotation.queuemanagementsystemdg.com/api/notes/${id}`
       );
 
       if (response.status === 200) {
@@ -64,7 +64,7 @@ function Reviews({ handleClose }) {
     try {
       const response = await axios.get(
         `
-        http://localhost:9000/api/${id}/header`
+        https://quotation.queuemanagementsystemdg.com/api/${id}/header`
       );
 
       if (response.status === 200) {
@@ -204,7 +204,7 @@ function Reviews({ handleClose }) {
 
         <div className="container-fluid">
 <Link to={`/final-quotation/${id}`} className="btn btn-success mx-1 mt-3 mb-2 btn-print ">
-<i className="bi bi-arrow-return-left mx-1"></i>   Final Quotation
+<i className="bi bi-arrow-return-left mx-1"></i>  Back
             </Link>
            
 
@@ -239,7 +239,7 @@ function Reviews({ handleClose }) {
            {/* <div className=" footimage">
       <Footer /></div>  */}
       <Link to={`/final-quotation/${id}`} className="btn btn-success mx-1 mt-3 mb-2 btn-print ">
-<i className="bi bi-arrow-return-left mx-1"></i>   Final Quotation
+<i className="bi bi-arrow-return-left mx-1"></i>  Back
             </Link>
 
 </div>

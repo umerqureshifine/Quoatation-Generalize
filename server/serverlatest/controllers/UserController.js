@@ -270,6 +270,29 @@ const deleteQuotation = async (req, res) => {
   };
 
 
+ const  GetQuotationName = async (req, res) => {
+  try {
+    const { quotationId } = req.params; // Extracting UserId from req.params
+    const sql = "SELECT * FROM quotations_data WHERE quotation_id = ? ";
+
+    const quotations = await new Promise((resolve, reject) => {
+      db.query(sql, [quotationId], (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+
+    res.status(200).json(quotations);
+  } catch (error) {
+    console.error("Error processing request:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
   const UpdateQuotationName = async (req, res) => {
     try {
         const { quotationId } = req.params; // Extracting quotationId from req.params
@@ -307,6 +330,13 @@ const deleteQuotation = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
+
+
+
+
+
+
 
 const CopyQuotationData = async (req, res) => {
   try {
@@ -444,6 +474,12 @@ if (!Array.isArray(getNotes)) {
 
 
 
+
+
+
+
+
+
 const Quotationviaid = (req, res) => {
   try {
     const quotation_id = req.params.id;
@@ -464,7 +500,8 @@ const Quotationviaid = (req, res) => {
   }
 };
 
-//server deployed
+
+
 // const addServices = async (req, res) => {
 //   try {
 //     const { id } = req.params;
@@ -479,6 +516,7 @@ const Quotationviaid = (req, res) => {
 //       quotation_name,
 //       service.service_type,
 //       service.service_name,
+//       service.service_description,
 //       service.actual_price,
 //       service.offer_price, 
 //      service.subscription_frequency, 
@@ -541,7 +579,6 @@ const addServices = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
 
 
 
@@ -725,6 +762,24 @@ const deleteNote = (req, res) => {
     }
   });
 };
+const updateNote = async (req, res) => {
+  const { notes } = req.body;
+
+  try {
+    // Use map to update each note in the database
+    await Promise.all(notes.map(async (note) => {
+      const { id, quotation_id, note_text } = note;
+      // Execute the update query for each note
+      await db.query('UPDATE notes SET note_text = ? WHERE id = ? AND quotation_id = ?', [note_text, id, quotation_id]);
+    }));
+    // Send a success response
+    res.status(200).json({ success: true, message: 'Notes updated successfully' });
+  } catch (error) {
+    console.error('Error updating notes:', error);
+    // Send an error response
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
 
 
 const getnotes_text = (req, res) => {
@@ -746,7 +801,9 @@ const getnotes_text = (req, res) => {
 
 
 
+
+
 module.exports = { Quotation, GetQuotation, Quotationviaid,addServices,deleteService, GetServices,deleteQuotation,updateServices,Notes,getNotes,
   getnotes_text,
-  deleteNote , UpdateQuotationName,CopyQuotationData };
+  deleteNote , UpdateQuotationName,CopyQuotationData ,GetQuotationName,updateNote};
 

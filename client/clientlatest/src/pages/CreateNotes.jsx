@@ -15,7 +15,7 @@ const CreateNotes = () => {
     // Fetch notes from the backend API
     const fetchNotes = async () => {
       try {
-        const response = await axios.get(`http://localhost:9000/api/notes_data`);
+        const response = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/notes_data`);
         setNoteTexts(response.data);
       } catch (error) {
         console.error("Error fetching notes:", error);
@@ -48,7 +48,7 @@ const CreateNotes = () => {
     try {
       
       for (const note of selectedNotes) {
-        const response = await axios.post("http://localhost:9000/api/notes", {
+        const response = await axios.post("https://quotation.queuemanagementsystemdg.com/api/notes", {
           noteTexts: [note],
           quotationId: id,
         });
@@ -122,7 +122,7 @@ const CreateNotes = () => {
 
       
       <Link to={`/final-quotation/${id}`} className="btn btn-primary mx-4">
-        Back to Final Quotation
+      <i className="bi bi-arrow-return-left mx-1"></i>  Back 
       </Link>
     </div>
   );

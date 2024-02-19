@@ -36,7 +36,7 @@ try {
     });
   });
 
-  res.status(201).json({ success: true, message: ' Header and Footer images uploaded successfully' });
+  res.status(201).json({ success: true, message: ' Company profile uploaded successfully' });
 } catch (error) {
   console.error('Error uploading company data and header/footer images:', error);
   res.status(500).json({ error: 'Internal Server Error' });

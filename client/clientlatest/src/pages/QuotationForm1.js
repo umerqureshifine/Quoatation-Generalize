@@ -1,30 +1,30 @@
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Logout from "./Logout";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import UserLogin from "./UserLogin";
 import { useSelector } from "react-redux";
 
 const QuotationForm1 = () => {
+  const userId = useSelector(state => state.auth.user.id);
   const navigate = useNavigate();
   const [quotationName, setQuotationName] = useState("");
   const [serviceslist, setServiceslist] = useState([]);
   const [services, setServices] = useState([
-   
     {
       service_type: "",
       service_name: "",
       service_description: "",
       actual_price: null,
       offer_price: null,
-      subscription_frequency:"",
+      subscription_frequency: "",
     },
   ]);
-  const [otherServices, setOtherServices] = useState(Array(services.length).fill(""));
+  const [otherServices, setOtherServices] = useState(
+    Array(services.length).fill("")
+  );
   const [subscriptionFrequencies, setSubscriptionFrequencies] = useState([
     "Yearly",
     "Monthly",
@@ -34,11 +34,7 @@ const QuotationForm1 = () => {
     "Weekly",
   ]);
 
-  const userName = useSelector(state => state.auth.user.id);
-
-
-  
-
+  const userName = useSelector((state) => state.auth.user.id);
 
   // const handleServiceChange = (index, field, value) => {
   //   const newServices = [...services];
@@ -47,16 +43,22 @@ const QuotationForm1 = () => {
   // };
   const handleServiceChange = (index, field, value) => {
     const newServices = [...services];
-  
-    if (field === 'service_type' && value === 'Complimentary') {
+
+    if (field === "service_type" && value === "Complimentary") {
       // If the service type is 'Complimentary', disable the offer price and set it to 0
-      newServices[index]['offer_price'] = 0;
+      newServices[index]["offer_price"] = 0;
     }
-  
-    if (field === 'offer_price' && newServices[index].service_type === 'Complimentary') {
+
+    if (
+      field === "offer_price" &&
+      newServices[index].service_type === "Complimentary"
+    ) {
       // If the service type is 'Complimentary', set offer price to 0 and disable the input
       newServices[index][field] = 0;
-    } else if (field === 'offer_price' && value > newServices[index].actual_price) {
+    } else if (
+      field === "offer_price" &&
+      value > newServices[index].actual_price
+    ) {
       // If offer price is greater than actual price, set it to actual price and alert
       alert("Offer price cannot be greater than actual price");
       newServices[index][field] = newServices[index].actual_price;
@@ -65,11 +67,8 @@ const QuotationForm1 = () => {
       newServices[index][field] = value;
     }
 
-    
-
     setServices(newServices);
   };
-
 
   const addService = () => {
     setServices([
@@ -80,7 +79,7 @@ const QuotationForm1 = () => {
         service_description: "",
         actual_price: null,
         offer_price: null,
-        subscription_frequency:"",
+        subscription_frequency: "",
       },
     ]);
   };
@@ -93,10 +92,9 @@ const QuotationForm1 = () => {
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
-    
 
   //   try {
-  //     const response = await axios.post("http://localhost:9000/api/quotation", {
+  //     const response = await axios.post("https://quotation.queuemanagementsystemdg.com/api/quotation", {
   //       quotation_name: quotationName,
   //       services: services.map((service) => ({
   //         service_type: service.service_type,
@@ -110,21 +108,18 @@ const QuotationForm1 = () => {
 
   //     navigate(`/final-quotation/${response.data.quotation.id}`);
 
-     
   //   } catch (error) {
   //     console.error(
   //       "Error adding quotation:",
   //       error.response?.data || error.message
   //     );
 
-    
   //   }
   // };
 
-
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
-  
+
   //   try {
   //     const servicesToSave = services.map((service) => {
   //       return {
@@ -134,14 +129,14 @@ const QuotationForm1 = () => {
   //         offer_price: service.offer_price,
   //       };
   //     });
-  
-  //     const response = await axios.post("http://localhost:9000/api/quotation", {
+
+  //     const response = await axios.post("https://quotation.queuemanagementsystemdg.com/api/quotation", {
   //       quotation_name: quotationName,
   //       services: servicesToSave,
   //     });
-  
+
   //     console.log("Quotation added successfully:", response.data);
-  
+
   //     navigate(`/final-quotation/${response.data.quotation.id}`);
   //   } catch (error) {
   //     console.error(
@@ -151,10 +146,9 @@ const QuotationForm1 = () => {
   //   }
   // };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const servicesToSave = services.map((service) => {
         return {
@@ -169,15 +163,15 @@ const QuotationForm1 = () => {
           subscription_frequency: service.subscription_frequency,
         };
       });
-  
-      const response = await axios.post("http://localhost:9000/api/quotation", {
+
+      const response = await axios.post("https://quotation.queuemanagementsystemdg.com/api/quotation", {
         quotation_name: quotationName,
         services: servicesToSave,
-        user_id : userName
+        user_id: userName,
       });
-  
+
       console.log("Quotation added successfully:", response.data);
-  
+
       navigate(`/final-quotation/${response.data.quotation.id}`);
     } catch (error) {
       console.error(
@@ -186,14 +180,12 @@ const QuotationForm1 = () => {
       );
     }
   };
-  
-  
 
   const getServicelist = async () => {
     try {
-      const res = await axios.get(`http://localhost:9000/api/services`);
-      console.log(res.data.services);
-      setServiceslist(res.data.services);
+      const res = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/servicelist/${userId}`);
+      console.log(res.data);
+      setServiceslist(res.data);
     } catch (error) {
       console.log("error", error);
     }
@@ -215,38 +207,51 @@ const QuotationForm1 = () => {
     setOtherServices(newOtherServices);
   };
 
+  
+  const handleCreateServices = () => {
+    navigate(``);
+  };
+
   return (
     <Wrapper>
+      <Link
+        to={`/create-company-profile`}
+        className="btn btn-success mt-3 mx-2"
+      >
+        <i className="bi bi-arrow-return-left"></i> Back
+      </Link>
       <div className="container mt-5">
-    
-    
-        <div className="row">
-          
+        <div className="row ">
           <form className="form-control" onSubmit={handleSubmit}>
-            <div className="row p-2">
-            <div className="col-lg-3">  <UserLogin/></div>
-        
-            <div className="col-lg-8 ">    <h5 className="mb-4 text-center">
-              Quotation Generlize:
-              <button  className="btn btn-success mx-3 float-end">
-              <Link to='/quotationlist' className="text-white text-decoration-none">Quotation List</Link>
-            </button>
-            </h5></div>
-            <div className="col-lg-1 "> <Logout/></div>
+            <div className="row g-2  p-2">
+              <div className="col-lg-3  ">
+                {" "}
+                <UserLogin />
+              </div>
 
+              <div className="col-lg-6 text-lg-center text-sm-start ">
+                {" "}
+                <h5 className="mb-4 ">
+                  Quotation Generation System :
+               
+                </h5>
+              </div>
+              <div className="col-lg-2">
+              <button className="btn btn-success ">
+                    <Link
+                      to="/quotationlist"
+                      className="text-white text-decoration-none"
+                    >
+                      Quotation List
+                    </Link>
+                  </button>
+              </div>
+              <div className="col-lg-1  ">
+                {" "}
+                <Logout />
+              </div>
             </div>
 
-
-
-
-
-
-            
-    
-        
-
-        
-           
             <div className="col-12 mb-3">
               <input
                 type="text"
@@ -259,7 +264,7 @@ const QuotationForm1 = () => {
                 required
               />
             </div>
-{/* 
+            {/* 
             {services.map((service, index) => (
               <div key={index}>
                 <div className="row">
@@ -395,7 +400,7 @@ const QuotationForm1 = () => {
               </div>
             ))} */}
 
-{services.map((service, index) => (
+            {services.map((service, index) => (
               <div key={index}>
                 <div className="row g-3">
                   <h6>Service {index + 1}</h6>
@@ -409,25 +414,33 @@ const QuotationForm1 = () => {
                     required
                   /> */}
                   <div className="col-lg-12">
-  <label className="form-check-label">
-    Service Type:
-    <select
-      className="form-select"
-      id={`serviceType${index}`}
-      name="service_type"
-      onChange={(e) => handleServiceChange(index, "service_type", e.target.value)}
-      value={service.service_type}
-      required
-    >
-      <option value="" disabled>
-        Select Service Type
-      </option>
-      <option value="Paid">Paid Service</option>
-      <option value="Complimentary">Complimentary Service</option>
-      {/* Add other service types as needed */}
-    </select>
-  </label>
-</div>
+                    <label className="form-check-label">
+                      Service Type:
+                      <select
+                        className="form-select"
+                        id={`serviceType${index}`}
+                        name="service_type"
+                        onChange={(e) =>
+                          handleServiceChange(
+                            index,
+                            "service_type",
+                            e.target.value
+                          )
+                        }
+                        value={service.service_type}
+                        required
+                      >
+                        <option value="" disabled>
+                          Select Service Type
+                        </option>
+                        <option value="Paid">Paid Service</option>
+                        <option value="Complimentary">
+                          Complimentary Service
+                        </option>
+                        {/* Add other service types as needed */}
+                      </select>
+                    </label>
+                  </div>
 
                   <div className="col-lg-2">
                     <label className="form-check-label">
@@ -492,7 +505,28 @@ const QuotationForm1 = () => {
                         </select>
                       )}
                     </label>
+                    <Link
+                  className=" mx-1  w-100"
+                 to='/create-servicelist'
+                >
+                  Add
+                </Link>
+                /
+                <Link
+                  className=" mx-1  w-100"
+                  to='/update-servicename'
+                >
+                  Edit
+                </Link>
+                /
+                <Link
+                  className=" mx-1  w-100"
+                 to="/delete-servicename"
+                >
+                  Delete
+                </Link>
                   </div>
+            
 
                   <div className="col-lg-4">
                     <label className="form-check-label">
@@ -573,9 +607,7 @@ const QuotationForm1 = () => {
             <button type="submit" className="btn btn-success mx-3">
               Submit
             </button>
-           
           </form>
-          
         </div>
       </div>
     </Wrapper>
@@ -587,7 +619,3 @@ const Wrapper = styled.div`
 `;
 
 export default QuotationForm1;
-
-
-
-

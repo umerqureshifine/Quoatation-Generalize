@@ -111,7 +111,7 @@
 //       });
 
 //       const response = await axios.post(
-//         `http://localhost:9000/api/services/${id}`,
+//         `https://quotation.queuemanagementsystemdg.com/api/services/${id}`,
 //         {
 //           quotation_name: quotationName,
 //           services: servicesToSave,
@@ -131,7 +131,7 @@
 
 //   const getQuotationName = async () => {
 //     try {
-//       const response = await axios.get(`http://localhost:9000/api/quotation/${id}`);
+//       const response = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/quotation/${id}`);
 //       setQuotationName(response.data[0].quotation_name);
 //       console.log(response);
 //     } catch (error) {
@@ -141,7 +141,7 @@
 
 //   const getServicelist = async () => {
 //     try {
-//       const res = await axios.get(`http://localhost:9000/api/services`);
+//       const res = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/services`);
 //       setServiceslist(res.data.services);
 //     } catch (error) {
 //       console.log('Error fetching services list:', error);
@@ -500,7 +500,7 @@ const Addservices = () => {
       });
 
       const response = await axios.post(
-        `http://localhost:9000/api/services/${id}`,
+        `https://quotation.queuemanagementsystemdg.com/api/services/${id}`,
         {
           quotation_name: quotationName,
           services: servicesToSave,
@@ -520,7 +520,7 @@ const Addservices = () => {
 
   const getQuotationName = async () => {
     try {
-      const response = await axios.get(`http://localhost:9000/api/quotation/${id}`);
+      const response = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/quotation/${id}`);
       setQuotationName(response.data[0].quotation_name);
     } catch (error) {
       console.log('Error fetching quotation name:', error);
@@ -529,7 +529,7 @@ const Addservices = () => {
 
   const getServicelist = async () => {
     try {
-      const res = await axios.get(`http://localhost:9000/api/services`);
+      const res = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/services`);
       setServiceslist(res.data.services);
     } catch (error) {
       console.log('Error fetching services list:', error);
@@ -556,7 +556,7 @@ const Addservices = () => {
           <h5 className="mb-4 text-center">
             Add Services to Quotation: {quotationName}
             <Link to={`/final-quotation/${id} `} className="btn btn-success mx-3 mt-4 mb-2 float-end">
-              Final Quotation
+            <i className="bi bi-arrow-return-left mx-1"></i> Back
             </Link>
           </h5>
 
@@ -693,6 +693,7 @@ const Addservices = () => {
                         </select>
                       )}
                     </label>
+                    
                   </div>
                 <div className="col-lg-4">
                   <label className="form-check-label">

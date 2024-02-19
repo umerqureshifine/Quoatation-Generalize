@@ -10,12 +10,14 @@ function Logout() {
 
   
   const handleLogout = () => {
-    // Dispatch the logout action
-    window.confirm('Are You Sure Logout')
-    dispatch(logoutUser());
-    // Redirect the user to the login page
-    
-    navigate('/');
+    // Display a confirmation dialog
+    const confirmed = window.confirm('Are you sure you want to log out?');
+
+    // If user confirms, dispatch the logout action and redirect
+    if (confirmed) {
+      dispatch(logoutUser());
+      navigate('/');
+    }
   };
   return (
   

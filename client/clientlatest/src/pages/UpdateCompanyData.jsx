@@ -27,7 +27,7 @@ function UpdateCompanyData({ companyId }) {
     // Fetch existing data from the API
     const fetchCompanyData = async () => {
       try {
-        const response = await axios.post('http://localhost:9000/api/company-header-footer', {
+        const response = await axios.post('https://quotation.queuemanagementsystemdg.com/api/company-header-footer', {
           company_name: company
         });
         
@@ -96,7 +96,7 @@ function UpdateCompanyData({ companyId }) {
 
    
 
-      const response = await axios.put(`http://localhost:9000/api/companydata/${idcompany}`, formData, {
+      const response = await axios.put(`https://quotation.queuemanagementsystemdg.com/api/companydata/${idcompany}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

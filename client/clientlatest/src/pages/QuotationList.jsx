@@ -16,7 +16,7 @@
 //   useEffect(() => {
 //     const fetchQuotations = async () => {
 //       try {
-//         const response = await axios.get(`http://localhost:9000/api/quotation-data/${UserId}`);
+//         const response = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/quotation-data/${UserId}`);
 //         setQuotations(response.data);
 //         console.log(response);
 //       } catch (error) {
@@ -36,7 +36,7 @@
 //     if (isConfirmed) {
 //       try {
 //         const response = await axios.delete(
-//           `http://localhost:9000/api/quotation/${id}`
+//           `https://quotation.queuemanagementsystemdg.com/api/quotation/${id}`
 //         );
 
 //         if (response.status === 200) {
@@ -115,7 +115,7 @@ const QuotationList = () => {
   useEffect(() => {
     const fetchQuotations = async () => {
       try {
-        const response = await axios.get(`http://localhost:9000/api/quotation-data/${UserId}`);
+        const response = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/quotation-data/${UserId}`);
         setQuotations(response.data);
         console.log(response);
       } catch (error) {
@@ -135,7 +135,7 @@ const QuotationList = () => {
     if (isConfirmed) {
       try {
         const response = await axios.delete(
-          `http://localhost:9000/api/quotation/${id}`
+          `https://quotation.queuemanagementsystemdg.com/api/quotation/${id}`
         );
 
         if (response.status === 200) {
@@ -150,7 +150,7 @@ const QuotationList = () => {
 
   const handleCopyQuotation = async (quotationId) => {
     try {
-      const response = await axios.post(`http://localhost:9000/api/copy-quotation/${quotationId}`);
+      const response = await axios.post(`https://quotation.queuemanagementsystemdg.com/api/copy-quotation/${quotationId}`);
       console.log(response.data.message);
       window.location.reload();
     } catch (error) {
