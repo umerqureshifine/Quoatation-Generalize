@@ -39,6 +39,9 @@ import AddInvoiceServices from "./components/Invoice/AddInvoiceServices";
 import ReviewInvoice from "./components/Invoice/ReviewInvoice";
 import PrintInvoice from './components/Invoice/PrintInvoice';
 import CreateInvoiceProfile from "./components/Invoice/CreateInvoiceProfile";
+import CreateInvoiceNotes from "./components/Invoice/CreateInvoiceNotes";
+import DeleteInvoiceNotes from "./components/Invoice/DeleteInvoiceNotes";
+import UpdateInvoiceNotes from "./components/Invoice/UpdateInvoiceNotes";
 
 
  
@@ -89,6 +92,10 @@ function App() {
         <Route path="/print-invoice/:id" element={user ?<PrintInvoice />: <Navigate to="/" />} />
 
         <Route path="/invoice-profile" element={user ?<CreateInvoiceProfile />: <Navigate to="/" />} />
+
+        <Route path="/invoicecreatenotes/:id" element={user ? <CreateInvoiceNotes />: <Navigate to="/" />}/>
+        <Route path="/invoicedeletenotes/:id" element={user ? <DeleteInvoiceNotes />: <Navigate to="/" />} />
+        <Route path="/invoice-update-notes/:id" element={user ? <UpdateInvoiceNotes />: <Navigate to="/" />} />
 
 
         

@@ -14,7 +14,8 @@ const QuotationInvoice = () => {
     
   const [paymentmode, setpaymentmode] = useState([]);
   const [invoiceAdvancePayment, setInvoiceAdvancePayment] = useState("");
-  const [invoiceGST, setInvoiceGST] = useState("");
+  const [invoiceGST_or_Pan, setInvoiceGST_or_Pan] = useState("");
+  const [selectedCompany, setSelectedCompany] = useState("");
 
     const {id} = useParams();
     const navigate = useNavigate();
@@ -71,9 +72,10 @@ const QuotationInvoice = () => {
         invoice_address: invoiceAddress,
         payment_mode: paymentmode,
         // advance_payment: invoiceAdvancePayment,
-        client_gst_no: invoiceGST,
+        client_gst_or_pan: invoiceGST_or_Pan,
         services: services,
         user_id: userId,
+        company_type: selectedCompany,
       });
 
       console.log("Invoice added successfully:", response.data);
@@ -86,7 +88,10 @@ const QuotationInvoice = () => {
       );
     }
   };
-
+  const handleChangeCompany = (e) => {
+    setSelectedCompany(e.target.value);
+  };
+  
 
 
   return (
@@ -131,6 +136,26 @@ const QuotationInvoice = () => {
             </div>
    
             <div className="row">
+            <div className="col-lg-12 mb-3">
+                    <label className="form-check-label">
+                   Select Enter Company name 
+                      <select
+                          className="form-select "
+                          id="companyList"
+                          name="company_list"
+                          onChange={handleChangeCompany}
+                          value={selectedCompany}
+                          required
+                     
+                      >
+                         <option value="" disabled>
+            Select Company
+          </option>
+          <option value="Doaguru IT Solutions">Doaguru IT Solutions</option>
+          <option value="Doaguru Infosystems">Doaguru Infosystems</option>
+                      </select>
+                    </label>
+                  </div>
            <div className="col-lg-3 mb-3">
               <input
                 type="text"
@@ -174,18 +199,35 @@ const QuotationInvoice = () => {
                   required
                 />
               </div> */}
-              <div className="col-lg-3 mb-3">
-                <input
-                  type="text"
-                  className="form-control text-center"
-                  id="invoiceGST"
-                  name="client_gst_no"
-                  placeholder="Invoice GST NO."
-                  value={invoiceGST}
-                  onChange={(e) => setInvoiceGST(e.target.value)}
-                  required
-                />
-              </div>
+              {selectedCompany === "Doaguru IT Solutions" && (
+        <div className="col-lg-3 mb-3">
+          
+          <input
+            type="text"
+            className="form-control text-center"
+            id="panCardNumber"
+            name="pan_card_number"
+            placeholder="Enter PAN Card Number (Optional)"
+            value={invoiceGST_or_Pan}
+            onChange={(e) => setInvoiceGST_or_Pan(e.target.value)}
+            
+          />
+        </div>
+      )}
+      {selectedCompany === "Doaguru Infosystems" && (
+        <div className="col-lg-3 mb-3">
+          <input
+            type="text"
+            className="form-control text-center"
+            id="gstNumber"
+            name="gst_number"
+            placeholder="Enter GST Number"
+            value={invoiceGST_or_Pan}
+            onChange={(e) => setInvoiceGST_or_Pan(e.target.value)}
+            required
+          />
+        </div>
+      )}
            <div className="col-lg-3 mb-3">
               <textarea
                 type="text"

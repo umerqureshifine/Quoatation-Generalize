@@ -64,21 +64,7 @@ function Print_Page() {
       console.error("Error fetching notes:", error);
     }
   };
-  // const fetchHeaderImage = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://quotation.queuemanagementsystemdg.com/api/${id}/header`
-  //     );
 
-  //     if (response.status === 200) {
-  //       // Assuming your response.data structure contains the image URL
-  //       setHeaderImagePath(response.data[0]?.file_path);
-  //       console.log("Footer Image URL:", headerImagePath);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching footer image:", error);
-  //   }
-  // };
 
   useEffect(() => {
     // Fetch company names from the backend
@@ -309,22 +295,7 @@ function Print_Page() {
             Optimization/GMB/Google Reviews/Google PPC Ads/Website Modification
             & Maintenance
           </h4>
-          {/* <table className="table table-bordered mt-3">
-            <thead>
-              <tr>
-                <th colSpan="4" className="th">
-                  Payment Installment
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>100%</td>
-                <td>On placement of order</td>
-              </tr>
-           
-            </tbody>
-          </table> */}
+       
           <EditableSeoPayment />
         </div>
       );
@@ -446,12 +417,7 @@ function Print_Page() {
               </option>
             ))}
           </select>
-          {/* <select className="form-select btn-print" value={selectedCompany} onChange={handleCompanyNameChange} required>
-      <option value="">Select Company</option>
-      {companyNames.map((company, index) => (
-        <option key={index} value={company}>{company}</option>
-      ))}
-    </select> */}
+       
           <div className="">
             <button
               className="btn btn-danger mt-3 mx-2 btn-print"
@@ -495,47 +461,7 @@ function Print_Page() {
           </div>
           <div className=" mt-2 mb-3">{renderSEOPaymentConditions()}</div>
 
-          {/* <div className=" mb-3">
-          <table className="table table-bordered mt-1">
-            <thead>
-              <tr>
-              
-                <th colSpan="3" className="th text-center">
-                  Payment Details
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-            {selectedCompany === 'Doaguru InfoSystems' && (
-              <tr colSpan="3" >
-                
-              
-                <td>For Payment (with GST18%) : DOAGuru InfoSystems</td>
-                <td>SBIN0004677</td>
-                <td>38666325192</td>
-              </tr>
-            )}
-            {selectedCompany === 'Doaguru IT Solutions' && (
-              <tr>
-           
-           <td width={1000}>
-      <input
-        type="text"
-        defaultValue="For TDS Payment : DOAGuru IT Solutions"
-        className="form-control"
-       style={{border:"none"}}
-      />
-    </td>
-                <td>HDFC0000224</td>
-                <td>50200074931981</td>
-              </tr>
-            )}
-
-              <tr></tr>
-            </tbody>
-          </table>
-        </div> */}
-
+      
           <div className="">
             <table className="table table-bordered mt-3">
               <thead>
@@ -617,41 +543,3 @@ const Wrapper = styled.div`
   }
 `;
 
-{
-  /* <table className="table table-bordered mt-3">
-            <thead>
-              <tr>
-              <th>Sr.No</th>
-                <th>Service Type</th>
-                <th>Service Description</th>
-                <th>Actual Price</th>
-                <th>Offer Price</th>
-                <th>Subscription</th>
-              </tr>
-            </thead>
-            <tbody>
-              {quotations.map((q, index) => (
-                <tr key={q.id}>
-                  <td className="text-center" style={{ fontSize: "1rem", fontWeight: "bold" }}>{index + 1}</td>
-                  <td style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                    {q.service_type}
-                  </td>
-                  <td>{q.service_description}</td>
-                  <td className="th">{q.actual_price}/-</td>
-                  <td className="th">{q.offer_price}/-</td>
-                  <td  className="th"> {q.subscription_frequency}</td>
-                 
-
-                </tr>
-              ))}
-              <tr>
-                <td colSpan="3" className="th">
-                  Total Amount
-                </td>
-                <td className="th">{totalActualPrice}/-</td>
-                <td className="th">{totalOfferPrice}/-</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table> */
-}

@@ -13,7 +13,7 @@ const UpdateInvoiceServices = ({ invoiceId, onUpdateSuccess, onUpdateError }) =>
         console.error('Error fetching services:', error);
       }
     };
-  
+   
     const handleUpdate = async (e) => {
       e.preventDefault();
       try {

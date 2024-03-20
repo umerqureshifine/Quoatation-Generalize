@@ -13,6 +13,8 @@ function FinalInvoice() {
   const [totalActualPrice, setTotalActualPrice] = useState(0);
   const [totalOfferPrice, setTotalOfferPrice] = useState(0);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [notes, setNotes] = useState([]);
+
 
 
   const fetchInvoices = async () => {
@@ -41,9 +43,21 @@ function FinalInvoice() {
       console.error("Error fetching quotations:", error);
     }
   };
+  const fetchNotes = async () => {
+    try {
+      const response = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/invoice-get-notes/${id}`);
+  
+      if (response.status === 200) {
+        setNotes(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+    }
+  };
 
   useEffect(() => {
     fetchInvoices();
+    fetchNotes();
   }, []);
 
   const filterServicesByType = (type) => {
@@ -95,6 +109,16 @@ function FinalInvoice() {
   const handlePrintPage = () => {
     navigate(`/print-invoice/${id}`);
   };
+
+  const handleAddNotes = () => {
+  navigate(`/invoicecreatenotes/${id}`);
+};
+const handleDeleteNotes = () => {
+  navigate(`/invoicedeletenotes/${id}`);
+};
+const handleUpdateNotes = () => {
+  navigate(`/invoice-update-notes/${id}`);
+};
   return (
    <>
      <div className="container-fluid">
@@ -263,15 +287,61 @@ function FinalInvoice() {
                     ))}
                   </tbody>
                 </table>
-                <div className="col-lg-6"> <button
+             
+                
+              
+              </div>
+              <div className="note mt-3">
+              <h5 className=" fw-bold">Notes:-</h5>
+
+              <ul>
+              {notes.map((note) => (
+                  <li key={note.id} className="fw-bold " style={{lineHeight:"0.5rem",fontSize:"0.9rem"}}>
+                    {note.note_text}
+                    <p>{note.additional_info}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+  
+  
+              <div className="row btn-print">
+             
+            <div className="col-lg-3">
+                {" "}
+                <button
+                  className="btn btn-primary mx-1 w-100 "
+                  onClick={handleAddNotes}
+                >
+                  Add Notes
+                </button>
+              </div>
+              <div className="col-lg-3">
+                {" "}
+                <button
+                  className="btn btn-danger mx-1 w-100"
+                  onClick={handleDeleteNotes}
+                >
+                  Delete Notes
+                </button>
+              </div>
+              <div className="col-lg-3">
+                <button
+                  className="btn btn-info mx-1 w-100 text-white"
+                  onClick={handleUpdateNotes}
+                >
+                  Edit Notes
+                </button>
+              </div>
+              <div className="col-lg-6 mt-3"> <button
                   className="btn btn-success mt-1 mb-2 "
                   onClick={handleReview}
                 >
                   Review Invoice data
                 </button></div>
-              </div>
             </div>
-            <div className="col-lg-12">
+            </div>
+            <div className="col-lg-12 mt-2">
                 <button
                   className="btn btn-success p-3 w-75 mb-2 w-100"
                   onClick={handlePrintPage}

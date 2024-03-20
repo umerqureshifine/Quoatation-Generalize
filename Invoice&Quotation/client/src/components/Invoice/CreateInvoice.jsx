@@ -15,8 +15,9 @@ const CreateInvoice = () => {
   const [invoiceName, setInvoiceName] = useState("");
   const [invoiceAddress, setInvoiceAddress] = useState("");
   const [invoiceAdvancePayment, setInvoiceAdvancePayment] = useState("");
-  const [invoiceGST, setInvoiceGST] = useState("");
+  const [invoiceGST_or_Pan, setInvoiceGST_or_Pan] = useState("");
   const [serviceslist, setServiceslist] = useState([]);
+  const [selectedCompany, setSelectedCompany] = useState("");
   const [services, setServices] = useState([
     {
       service_type: "",
@@ -115,9 +116,10 @@ const CreateInvoice = () => {
           invoice_address: invoiceAddress,
           payment_mode: paymentmode,
           // advance_payment: invoiceAdvancePayment,
-          client_gst_no: invoiceGST,
+          client_gst_or_pan: invoiceGST_or_Pan,
           services: servicesToSave,
           user_id: userName,
+          company_type: selectedCompany,
         }
       );
 
@@ -163,6 +165,11 @@ const CreateInvoice = () => {
   const handleCreateServices = () => {
     navigate(``);
   };
+  const handleChangeCompany = (e) => {
+    setSelectedCompany(e.target.value);
+  };
+  
+
 
   return (
     <Wrapper>
@@ -200,7 +207,31 @@ const CreateInvoice = () => {
                 <Logout />
               </div>
             </div>
-            <div className="row">
+            <div className="row ">
+              
+            <div className="col-lg-12 mb-3">
+                    <label className="form-check-label">
+                   Select Enter Company name 
+                      <select
+                          className="form-select "
+                          id="companyList"
+                          name="company_list"
+                          onChange={handleChangeCompany}
+                          value={selectedCompany}
+                          required
+                     
+                      >
+                         <option value="" disabled>
+            Select Company
+          </option>
+          <option value="Doaguru Infosystems">Doaguru Infosystems</option>
+          <option value="Doaguru IT Solutions">Doaguru IT Solutions</option>
+          <option value="Doaguru Infosystems IGST">Doaguru Infosystems IGST</option>
+                      </select>
+                    </label>
+                  </div>
+       
+  
               <div className="col-lg-3 mb-3">
                 <input
                   type="text"
@@ -232,19 +263,8 @@ const CreateInvoice = () => {
                   {/* Add other Payment Modes as needed */}
                 </select>
               </div>
-              {/* <div className="col-lg-2 mb-3">
-                <input
-                  type="number"
-                  className="form-control text-center"
-                  id="invoiceAdvancePayment"
-                  name="advance_payment"
-                  placeholder=" Advance Payment"
-                  value={invoiceAdvancePayment}
-                  onChange={(e) => setInvoiceAdvancePayment(e.target.value)}
-                  required
-                />
-              </div> */}
-              <div className="col-lg-3 mb-3">
+             
+              {/* <div className="col-lg-3 mb-3">
                 <input
                   type="text"
                   className="form-control text-center"
@@ -255,7 +275,51 @@ const CreateInvoice = () => {
                   onChange={(e) => setInvoiceGST(e.target.value)}
                   required
                 />
-              </div>
+              </div> */}
+              {selectedCompany === "Doaguru IT Solutions" && (
+        <div className="col-lg-3 mb-3">
+          
+          <input
+            type="text"
+            className="form-control text-center"
+            id="panCardNumber"
+            name="pan_card_number"
+            placeholder="Enter PAN Card Number (Optional)"
+            value={invoiceGST_or_Pan}
+            onChange={(e) => setInvoiceGST_or_Pan(e.target.value)}
+            
+          />
+        </div>
+      )}
+      {selectedCompany === "Doaguru Infosystems"  && (
+        <div className="col-lg-3 mb-3">
+          <input
+            type="text"
+            className="form-control text-center"
+            id="gstNumber"
+            name="gst_number"
+            placeholder="Enter GST Number"
+            value={invoiceGST_or_Pan}
+            onChange={(e) => setInvoiceGST_or_Pan(e.target.value)}
+            required
+          />
+        </div>
+      )}
+      {selectedCompany === "Doaguru Infosystems IGST"  && (
+        <div className="col-lg-3 mb-3">
+          <input
+            type="text"
+            className="form-control text-center"
+            id="gstNumber"
+            name="gst_number"
+            placeholder="Enter GST Number"
+            value={invoiceGST_or_Pan}
+            onChange={(e) => setInvoiceGST_or_Pan(e.target.value)}
+            required
+          />
+        </div>
+      )}
+      
               <div className="col-lg-3 mb-3">
                 <textarea
                   type="text"

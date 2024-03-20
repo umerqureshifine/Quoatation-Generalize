@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import img from "../../images/itsolution.png";
 
@@ -31,10 +31,15 @@ function PrintInvoice() {
   const [endInvoiceDate, setendInvoiceDate] = useState(null);
   const [paymentMode, setpaymentMode] = useState("");
   const [advancePayment, setadvancePayment] = useState("");
-  const [invoiceGST, setinvoiceGST] = useState("");
+  const [invoicecompanyType, setinvoicecompanyType] = useState("");
+  const [invoiceGST_or_Pan, setInvoiceGST_or_Pan] = useState("");
   const [invoiceGstType, setinvoiceGstType] = useState("");
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("");
+  const navigate = useNavigate();
+ 
+
+
 
   useEffect(() => {
     const fetchInvoiceAddress = async () => {
@@ -47,7 +52,8 @@ function PrintInvoice() {
           setInvoiceAddress(data[0].invoice_address);
           setpaymentMode(data[0].payment_mode);
           setadvancePayment(data[0].advance_payment);
-          setinvoiceGST(data[0].client_gst_no);
+          setInvoiceGST_or_Pan(data[0].client_gst_or_pan);
+          setinvoicecompanyType(data[0].company_type);
         } else {
           console.error("Failed to fetch invoice address");
         }
@@ -380,13 +386,13 @@ function PrintInvoice() {
     }
   };
 
-  const handleCompanyChange = async (selectedCompanyName) => {
+  const fetchCompanyData = async (companyType) => {
     try {
       // Make a POST request to fetch data for the selected company
       const response = await axios.post(
         "https://quotation.queuemanagementsystemdg.com/api/company-invoice-data",
         {
-          company_name: selectedCompanyName,
+          company_name: companyType,
         }
       );
 
@@ -415,13 +421,13 @@ function PrintInvoice() {
     } catch (error) {
       console.error("Error fetching company data:", error.message);
     }
-    setCompanySelected(selectedCompanyName);
+    setCompanySelected(invoicecompanyType);
   };
 
+
   useEffect(() => {
-    fetchInvoice();
-    fetchCompanyNames();
-  }, []);
+    fetchCompanyData(invoicecompanyType);
+  }, [invoicecompanyType]);
 
   const handlePrintPage = () => {
     if (!companySelected) {
@@ -478,18 +484,50 @@ function PrintInvoice() {
     setinvoiceGstType(e.target.value);
   };
 
-  const addNote = () => {
-    if (newNote.trim() !== '') {
-        setNotes([...notes, newNote]);
-        setNewNote('');
-    }
+//   const addNote = () => {
+//     if (newNote.trim() !== '') {
+//         setNotes([...notes, newNote]);
+//         setNewNote('');
+//     }
+// };
+
+// const deleteNote = (index) => {
+//     const updatedNotes = [...notes];
+//     updatedNotes.splice(index, 1);
+//     setNotes(updatedNotes);
+// };
+
+const addNote = (note) => {
+  setNotes([...notes, note]);
 };
 
+// Function to delete a note by index
 const deleteNote = (index) => {
-    const updatedNotes = [...notes];
-    updatedNotes.splice(index, 1);
-    setNotes(updatedNotes);
+  const updatedNotes = [...notes];
+  updatedNotes.splice(index, 1);
+  setNotes(updatedNotes);
 };
+
+
+const fetchNotes = async () => {
+  try {
+    const response = await axios.get(`https://quotation.queuemanagementsystemdg.com/api/invoice-get-notes/${id}`);
+
+    if (response.status === 200) {
+      setNotes(response.data);
+    }
+  } catch (error) {
+    console.error("Error fetching notes:", error);
+  }
+};
+
+
+useEffect(() => {
+  fetchInvoice();
+  fetchCompanyNames();
+  fetchNotes();
+ 
+}, []);
 
 
 
@@ -521,7 +559,7 @@ const deleteNote = (index) => {
       </div>
 
       <div className="">
-        <div className="mb-5 btn-print">
+        {/* <div className="mb-5 btn-print">
           <h4 className="btn-print">Select Company Name</h4>
           <select
             className="form-select btn-print"
@@ -535,7 +573,7 @@ const deleteNote = (index) => {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
         <div className="d-flex">
           <div className="">
             <img
@@ -630,16 +668,24 @@ const deleteNote = (index) => {
                   <h6>{invoiceAddress}</h6>
                 </td>
               </tr>
-              <tr>
+            {invoiceGST_or_Pan > " " && (
+<>
+ <tr>
+                
                 <td>
                   {" "}
-                  <h6>GST-{invoiceGST}</h6>
+                  <h6>{(invoicecompanyType=== "Doaguru IT Solutions") ? `Pan - ${invoiceGST_or_Pan}` :  `GST-${invoiceGST_or_Pan}`  }</h6>
                 </td>
                 <td>
                   {" "}
-                  <h6>GST-{invoiceGST}</h6>
+                  <h6>{(invoicecompanyType=== "Doaguru IT Solutions") ? `Pan - ${invoiceGST_or_Pan}` :  `GST-${invoiceGST_or_Pan}`  }</h6>
                 </td>
               </tr>
+</>
+
+
+            )}
+             
             </tbody>
           </table>
         </div>
@@ -707,32 +753,25 @@ const deleteNote = (index) => {
         {renderServices(duration, "Complimentary", companySelected)}
 
 
-        <div>
-            <div>
-              <h6>Notes:-</h6>
-                <input 
-                    type="text"
-                    className="form-control w-25 btn-print"
-                    value={newNote}
-                    onChange={(e) => setNewNote(e.target.value)}
-                />
-                <button className="btn btn-success mt-2 btn-print" onClick={addNote}>Add Notes</button>
-            </div>
-            <ul>
-                {notes.map((note, index) => (
-                
-                    <li key={index}>
-                      
-                        {note}
-                        <button className="btn btn-danger mx-2 mt-1 btn-print" onClick={() => deleteNote(index)}>Delete</button>
-                    </li>
+    
+
+<div className="note mt-3">
+              <h5 className=" fw-bold mb-3">Notes:-</h5>
+
+              <ul>
+                {notes.map((note) => (
+                  <li key={note.id} className="fw-bold " style={{lineHeight:"0.5rem",fontSize:"0.9rem"}}>
+                    {note.note_text}
+                    <p>{note.additional_info}</p>
+                  </li>
                 ))}
-            </ul>
-        </div>
-        <div className="d-flex justify-content-between">
+              </ul>
+            </div>
+      
+        <div className="d-flex justify-content-between li1">
           <div className="">
             <h6>Bank Details</h6>
-            <ul className="">
+            <ul className="" style={{lineHeight:"2rem"}}>
               <li>Name : {accountname}</li>
               <li>IFSC Code : {accountIFSC} </li>
               <li>Account No : {accountNumber}</li>
@@ -776,7 +815,7 @@ const Wrapper = styled.div`
     font-weight: bold;
     font-size: 0.9rem;
   }
-  li {
+  .li1 {
     font-weight: bold;
     font-size: 0.9rem;
     padding: 0.3rem;

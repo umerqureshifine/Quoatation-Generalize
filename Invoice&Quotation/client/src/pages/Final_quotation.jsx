@@ -19,10 +19,6 @@ function Final_quotation() {
   const [totalOfferPrice, setTotalOfferPrice] = useState(0);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [notes, setNotes] = useState([]);
-  const [footerImagePath, setFooterImagePath] = useState("");
-  const [headerImagePath, setHeaderImagePath] = useState("");
-  const [isUpdateHeaderMode, setIsUpdateHeaderMode] = useState(false);
-  const [isUpdateFooterMode, setIsUpdateFooterMode] = useState(false);
 
   const fetchQuotations = async () => {
     try {
@@ -67,27 +63,7 @@ function Final_quotation() {
     navigate(`/print/${id}`);
   };
 
-  const handleDelete = async () => {
-    // Display a confirmation dialog
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this quotation?"
-    );
 
-    if (isConfirmed) {
-      try {
-        const response = await axios.delete(
-          `https://quotation.queuemanagementsystemdg.com/api/quotation/${id}`
-        );
-
-        if (response.status === 200) {
-          console.log("Quotation deleted successfully");
-          navigate(`/quotation-form`);
-        }
-      } catch (error) {
-        console.error("Error deleting quotation:", error);
-      }
-    }
-  };
 
   const handleUpdateSuccess = () => {
     console.log("Services updated successfully");
@@ -136,56 +112,8 @@ function Final_quotation() {
       }
     }
   };
-  const handleDeleteHeaderImage = async () => {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this Header"
-    );
-    if (isConfirmed) {
-      try {
-        const response = await axios.delete(
-          `https://quotation.queuemanagementsystemdg.com/api/header/${id}`
-        );
+ 
 
-        if (response.status === 200) {
-          console.log("Header image deleted successfully");
-          window.location.reload();
-        }
-      } catch (error) {
-        console.error("Error deleting header image:", error);
-      }
-    }
-  };
-  const handleDeleteFooterImage = async () => {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this Footer"
-    );
-    if (isConfirmed) {
-      try {
-        const response = await axios.delete(
-          `https://quotation.queuemanagementsystemdg.com/api/footer/${id}`
-        );
-
-        if (response.status === 200) {
-          console.log("Footer image deleted successfully");
-          window.location.reload();
-        }
-      } catch (error) {
-        console.error("Error deleting Footer image:", error);
-      }
-    }
-  };
-
-  const handleAddHeaderImage = () => {
-    navigate(`/addimage/${id}/header`);
-  };
-
-  const handleAddFooterImage = () => {
-    navigate(`/addimage/${id}/footer`);
-  };
-
-  const handleChangeHeaderFooter = () => {
-    navigate(`/set-header-footer/${id}`);
-  };
 
   useEffect(() => {
     fetchQuotations();
@@ -202,54 +130,7 @@ function Final_quotation() {
 
   return (
     <>
-      {/* <Header/> */}
-      {/* <div className="">
-    <button className="btn btn-success mt-2 " onClick={handleChangeHeaderFooter}>
-            {" "}
-          
-          Add Company
-        
-          </button></div> */}
 
-      {/* <div className="container-fluid">
-        <div className="mt-3 mb-3">
-          {isUpdateHeaderMode ? (
-            <UpdateHeaderImageForm
-              quotationId={id}
-              onBack={() => setIsUpdateHeaderMode(false)}
-            />
-          ) : (
-            <>
-              <div className="mt-3 mb-3">
-                <img
-                  src={headerImagePath}
-                  alt="header not found"
-                  style={{ maxWidth: "100%", height: "auto" }}
-                />
-              </div>
-              <button
-                className="btn btn-primary mx-2"
-                onClick={handleAddHeaderImage}
-              >
-                Add Header Image
-              </button>
-
-              <button
-                className="btn btn-primary mx-2"
-                onClick={() => setIsUpdateHeaderMode(true)}
-              >
-                Update Header Image
-              </button>
-              <button
-                className="btn btn-danger mx-2"
-                onClick={handleDeleteHeaderImage}
-              >
-                Delete Header Image
-              </button>
-            </>
-          )}
-        </div>
-      </div> */}
 
       <Wrapper>
         <div className="container-fluid">

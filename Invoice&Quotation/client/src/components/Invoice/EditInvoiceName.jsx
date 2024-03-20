@@ -12,6 +12,8 @@ const EditInvoiceName = () => {
     const [newAddress, setNewAddress] = useState('');
     const [newpaymentMode, setNewpaymentMode] = useState('');
     const [newadavacePayment, setNewadavacePayment] = useState('');
+    const [newGST_or_Pan, setNewGST_or_Pan] = useState('');
+    const [newcompany_type, setNewcompany_type] = useState('');
     const [showModal, setShowModal] = useState(true);
   
     const [message, setMessage] = useState('');
@@ -26,6 +28,9 @@ const EditInvoiceName = () => {
                     setNewName(response.data[0].invoice_name); // Set default value for input
                     setNewAddress(response.data[0].invoice_address)
                     setNewpaymentMode(response.data[0].payment_mode)
+                    setNewGST_or_Pan(response.data[0].client_gst_or_pan	)
+                    setNewcompany_type(response.data[0].company_type)
+                    
                     // setNewadavacePayment(response.data[0].advance_payment)
                 }
             } catch (error) {
@@ -39,8 +44,8 @@ const EditInvoiceName = () => {
         event.preventDefault();
 
         try {
-            
-            const response = await axios.put(`https://quotation.queuemanagementsystemdg.com/api/invoice-data/${id}`, { newName,newAddress,newpaymentMode,newadavacePayment });
+            console.log(newcompany_type);
+            const response = await axios.put(`https://quotation.queuemanagementsystemdg.com/api/invoice-data/${id}`, { newName,newAddress,newpaymentMode, newGST_or_Pan , newcompany_type });
             if (response.status === 200) {
                 setMessage(response.data.message);
                 navigate('/invoicelist');
@@ -75,8 +80,10 @@ const EditInvoiceName = () => {
                         <Form.Control type="text" placeholder="Enter new Invoice Address" value={newAddress} onChange={(e) => setNewAddress(e.target.value)} />
                         <Form.Label  className='mt-3'>New Invoice Payment Mode</Form.Label>
                         <Form.Control type="text" placeholder="Enter new Invoice Payment mode" value={newpaymentMode} onChange={(e) => setNewpaymentMode(e.target.value)} />
-                        {/* <Form.Label  className='mt-3'>New Invoice Advance Payment</Form.Label>
-                        <Form.Control type="text" placeholder="Enter new Invoice Payment mode" value={newadavacePayment} onChange={(e) => setNewadavacePayment(e.target.value)} /> */}
+                        <Form.Label  className='mt-3'>New Invoice GST_or_Pan</Form.Label>
+                        <Form.Control type="text" placeholder="Enter new Invoice Payment mode" value={newGST_or_Pan} onChange={(e) => setNewGST_or_Pan(e.target.value)} />
+                        <Form.Label  className='mt-3'>New Invoice Company</Form.Label>
+                        <Form.Control type="text" placeholder="Enter new Invoice Payment mode" value={newcompany_type} onChange={(e) => setNewcompany_type(e.target.value)} />
                     </Form.Group>
                     <Button variant="primary" type="submit" className='mt-3'>
                         Save Changes
